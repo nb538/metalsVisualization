@@ -171,11 +171,7 @@ class Comp4 extends Component {
 
   handleSliderChange = (event, newValue) => {
     const { medianData } = this.state;
-
-    // Find the data corresponding to the selected year
     const filteredData = medianData.find((d) => d.year === newValue);
-
-    // Update the state with the new year and filtered data
     this.setState({ selectedYear: newValue, filteredData });
   };
 
