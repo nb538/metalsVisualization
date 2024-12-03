@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import FileUpload from "./FileUpload";
+import FileUploadMod from "./FileUploadMod";
 import Comp5 from "./Comp5";
 import Comp6 from "./Comp6";
 import Comp7 from "./Comp7";
@@ -18,7 +18,7 @@ class App extends Component {
   };
 
   componentDidUpdate = () => {
-    console.log(this.state.data);
+    //console.log(this.state.data);
   };
 
   set_data = (csv_data) => {
@@ -29,7 +29,7 @@ class App extends Component {
     return (
       <div className="body">
         <div className="topgroup">
-          <FileUpload set_data={this.set_data}></FileUpload>
+          <FileUploadMod set_data={this.set_data}></FileUploadMod>
           <Comp7 csv_data={this.state.data}></Comp7>
           <h1>This is the top group</h1>
         </div>

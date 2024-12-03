@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-class FileUpload extends Component {
+class FileUploadMod extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -42,15 +42,21 @@ class FileUpload extends Component {
       // Add object to result if it's not an empty row
       if (Object.keys(obj).length && lines[i].trim()) {
         const parsedObj = {
-          Date: new Date(obj.Date),
-          Company: obj.Company,
-          Open: parseFloat(obj.Open),
-          High: parseFloat(obj.High),
-          Low: parseFloat(obj.Low),
-          Close: parseFloat(obj.Close),
-          AdjClose: parseFloat(obj["Adj Close"]),
-          Volume: parseInt(obj.Volume, 10),
+          Year: obj.Year,
+          Month: obj.Month,
+          Price_Aluminum: parseFloat(obj.Price_alum),
+          Price_Gold: parseFloat(obj.Price_gold),
+          Price_Nickel: parseFloat(obj.Price_nickel),
+          Price_Silver: parseFloat(obj.Price_silver),
+          Price_Uranium: parseFloat(obj.Price_uran),
+          Inflation: parseFloat(obj.Inflation_rate),
+          Price_Alum_Infl: parseFloat(obj.Price_alum_infl),
+          Price_Gold_Infl: parseFloat(obj.Price_gold_infl),
+          Price_Nickel_infl: parseFloat(obj.Price_nickel_infl),
+          Price_Silver_Infl: parseFloat(obj.Price_silver_infl),
+          Price_Uran_Infl: parseFloat(obj.Price_uran_infl),
         };
+
         result.push(parsedObj);
       }
     }
@@ -86,4 +92,4 @@ class FileUpload extends Component {
   }
 }
 
-export default FileUpload;
+export default FileUploadMod;

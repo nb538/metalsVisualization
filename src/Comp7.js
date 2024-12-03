@@ -10,8 +10,14 @@ class Comp7 extends Component {
     };
   }
 
+  // Function to avoid years being categorized as numeric, only meant for this dataset
+  isYear(value) {
+    const yearPattern = /^[12][0-9]{3}$/;
+    return yearPattern.test(value);
+  }
+
   categorizeColumns(csv_data) {
-    if (!csv_data || csv_data.length === 0) {
+    if (!csv_data || csv_data.length < 2) {
       console.log("No Data");
       this.setState({
         numericColumns: [],
@@ -20,20 +26,28 @@ class Comp7 extends Component {
       return;
     }
 
-    // Extract columns from csv_data
+    // Extract columns from csv_data (header is the first row)
     const columns = Object.keys(csv_data[0]);
+    const firstDataRow = csv_data[1];
     const categorizedColumns = columns.reduce(
       (acc, column) => {
-        // Check if all values in the column are numeric
-        const isNumeric = csv_data.every((row) => !isNaN(+row[column]));
-        if (isNumeric) {
-          acc.numeric.push(column);
-        } else {
+        const value = firstDataRow[column];
+
+        // Check for year column
+        if (this.isYear(value)) {
           acc.object.push(column);
+        } else {
+          const isNumeric = !isNaN(+value);
+          if (isNumeric) {
+            acc.numeric.push(column);
+          } else {
+            acc.object.push(column);
+          }
         }
+
         return acc;
       },
-      { numeric: [], object: [] } // Initial categorized structure
+      { numeric: [], object: [] }
     );
 
     // Update state with categorized columns
@@ -62,11 +76,15 @@ class Comp7 extends Component {
     return (
       <div className="columnsgroup">
         <h2>Data Columns:</h2>
-        <div>
+        <div style={{ maxWidth: "50%" }}>
           <h4>Numeric Columns:</h4>
           <div
             className="numbercols"
-            style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "10px",
+            }}
           >
             {numericColumns.map((col) => (
               <span
