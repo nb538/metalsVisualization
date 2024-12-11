@@ -11,16 +11,16 @@ class Comp5 extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedYear: 2000, // Default year for the slider
-      medianData: [], // Holds all the processed data
-      filteredData: null, // Holds data for the currently selected year
+      selectedYear: 2000,
+      medianData: [],
+      filteredData: null,
       selectedMetals: {
         Aluminum: true,
         Gold: true,
         Silver: true,
         Nickel: true,
         Uranium: true,
-      }, // Tracks which metals are selected for display
+      },
       selectAll: true,
       sliderMin: 5,
       sliderRange: [1998, 2003],
@@ -89,17 +89,14 @@ class Comp5 extends Component {
 
     if (!filteredData || filteredData.length === 0) return;
 
-    // Set dimensions and margins
-    const w = 600;
+    const w = 700;
     const h = 400;
-    const margin = { top: 30, right: 100, bottom: 50, left: 70 };
+    const margin = { top: 30, right: 200, bottom: 50, left: 70 };
     const width = w - margin.left - margin.right;
     const height = h - margin.top - margin.bottom;
 
-    // Remove any existing SVG to avoid duplicates
     d3.select("#line-chart").selectAll("*").remove();
 
-    // Append the SVG element
     const svg = d3
       .select("#line-chart")
       .append("svg")
@@ -108,7 +105,6 @@ class Comp5 extends Component {
       .append("g")
       .attr("transform", `translate(${margin.left},${margin.top})`);
 
-    // Parse years and extract price fields
     const years = filteredData.map((d) => +d.year);
     const priceFields = [];
     if (selectedMetals.Aluminum) priceFields.push("medianPriceAluminum");
@@ -117,7 +113,6 @@ class Comp5 extends Component {
     if (selectedMetals.Nickel) priceFields.push("medianPriceNickel");
     if (selectedMetals.Uranium) priceFields.push("medianPriceUranium");
 
-    // Define scales
     const xScale = d3.scaleLinear().domain(d3.extent(years)).range([0, width]);
 
     const yMax = d3.max(filteredData, (d) =>
@@ -128,20 +123,17 @@ class Comp5 extends Component {
       .domain([0, yMax])
       .range([height, margin.top]);
 
-    // Add axes
     svg
       .append("g")
       .attr("transform", `translate(0,${height})`)
-      .call(d3.axisBottom(xScale).tickFormat(d3.format("d"))); // Format years as integers
+      .call(d3.axisBottom(xScale).tickFormat(d3.format("d")));
     svg.append("g").call(d3.axisLeft(yScale));
 
-    // Define line generator
     const line = d3
       .line()
       .x((d) => xScale(+d.year))
       .y((d) => yScale(d.value));
 
-    // Prepare data for each line
     const linesData = priceFields.map((key) => {
       return {
         name: key,
@@ -149,23 +141,21 @@ class Comp5 extends Component {
       };
     });
 
-    // Define a color scale
     const metalColors = {
-      medianPriceAluminum: "#000080",
-      medianPriceGold: "#DAA520",
-      medianPriceSilver: "#696969",
-      medianPriceNickel: "#FF4500",
-      medianPriceUranium: "#32CD32",
+      medianPriceAluminum: "#0000FF",
+      medianPriceGold: "#FFFF00",
+      medianPriceSilver: "#FF00FF",
+      medianPriceNickel: "#FF0000",
+      medianPriceUranium: "#00FF00",
     };
 
-    // Draw lines
     svg
       .selectAll(".line")
-      .data(linesData) // Bind the data
-      .join("path") // Handle enter, update, and exit
-      .attr("class", "line") // Add a class for styling or identification
+      .data(linesData)
+      .join("path")
+      .attr("class", "line")
       .attr("fill", "none")
-      .attr("stroke", (d) => metalColors[d.name]) // Use the index for stroke color
+      .attr("stroke", (d) => metalColors[d.name])
       .attr("stroke-width", 5)
       .attr("d", (d) => line(d.values));
 
@@ -209,20 +199,19 @@ class Comp5 extends Component {
       .attr("fill", "black")
       .style("font-weight", "bold");
 
-    // Add legend
     const legend = svg
       .selectAll(".legend")
       .data(linesData)
       .join("g")
       .attr("class", "legend")
-      .attr("transform", (d, i) => `translate(0,${i * 20})`);
+      .attr("transform", (d, i) => `translate(20,${i * 60 + 40})`);
 
     legend
       .append("rect")
-      .attr("x", width + 20)
-      .attr("y", 0)
-      .attr("width", 10)
-      .attr("height", 10)
+      .attr("x", width + 10)
+      .attr("y", -2)
+      .attr("width", 20)
+      .attr("height", 20)
       .style("fill", (d) => metalColors[d.name]);
 
     legend
@@ -230,7 +219,7 @@ class Comp5 extends Component {
       .attr("x", width + 35)
       .attr("y", 10)
       .text((d) => d.name.replace("medianPrice", ""))
-      .style("font-size", "12px")
+      .style("font-size", "24px")
       .attr("alignment-baseline", "middle");
   }
 
@@ -241,7 +230,6 @@ class Comp5 extends Component {
         [metal]: event.target.checked,
       };
 
-      // Check if all metals are selected
       const allSelected = Object.values(updatedMetals).every((value) => value);
 
       return { selectedMetals: updatedMetals, selectAll: allSelected };
@@ -288,20 +276,19 @@ class Comp5 extends Component {
 
     return (
       <div className="comp5">
-        <Box sx={{ width: 400, marginBottom: 1, marginRight: 16 }}>
-          <Slider
-            value={sliderRange}
-            onChange={this.handleRangeChange}
-            valueLabelDisplay="on"
-            step={1}
-            marks
-            min={1992}
-            max={2020}
-            disableSwap
-          />
-        </Box>
-        <div className="linegroup">
-          <div id="line-chart"></div>
+        <div className="line-controls">
+          <Box sx={{ width: 400, marginBottom: 1, marginTop: 2 }}>
+            <Slider
+              value={sliderRange}
+              onChange={this.handleRangeChange}
+              valueLabelDisplay="on"
+              step={1}
+              marks
+              min={1992}
+              max={2020}
+              disableSwap
+            />
+          </Box>
           <div className="linechecks">
             <FormControlLabel
               control={
@@ -324,6 +311,9 @@ class Comp5 extends Component {
               ))}
             </div>
           </div>
+        </div>
+        <div className="linegroup">
+          <div id="line-chart"></div>
         </div>
       </div>
     );

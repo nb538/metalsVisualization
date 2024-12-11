@@ -5,7 +5,7 @@ class FileUploadMod extends Component {
     super(props);
     this.state = {
       file: null,
-      jsonData: null, // New state to store the parsed JSON data
+      jsonData: null,
     };
   }
 
@@ -18,7 +18,7 @@ class FileUploadMod extends Component {
       reader.onload = (e) => {
         const text = e.target.result;
         const json = this.csvToJson(text);
-        this.setState({ jsonData: json }); // Set JSON to state
+        this.setState({ jsonData: json });
         this.props.set_data(json);
       };
       reader.readAsText(file);

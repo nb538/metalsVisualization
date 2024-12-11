@@ -120,9 +120,9 @@ class Comp6 extends Component {
       [diffKey]: d[priceInflKey] - d[priceKey],
     }));
 
-    const w = 600;
+    const w = 760;
     const h = 400;
-    const margin = { top: 40, right: 10, bottom: 50, left: 80 };
+    const margin = { top: 40, right: 110, bottom: 50, left: 80 };
     const width = w - margin.left - margin.right;
     const height = h - margin.top - margin.bottom;
 
@@ -246,9 +246,9 @@ class Comp6 extends Component {
       .data(["Raw Price vs Inflation Adjusted"])
       .join("text")
       .attr("class", "title")
-      .attr("x", 0)
-      .attr("y", 4)
-      .attr("text-anchor", "start")
+      .attr("x", margin.left / 4 + width / 2)
+      .attr("y", margin.top / 2)
+      .attr("text-anchor", "middle")
       .text((d) => d)
       .attr("font-size", "20px")
       .attr("fill", "black")
@@ -256,31 +256,40 @@ class Comp6 extends Component {
 
     const legend = svg
       .append("g")
-      .attr("transform", `translate(${width / 2 + 46}, -20)`);
+      .attr("transform", `translate(${width + 10}, ${height / 2})`);
 
     legend
       .selectAll("rect")
-      .data([priceKey, diffKey])
+      .data([diffKey, priceKey])
       .join("rect")
       .attr("x", 0)
-      .attr("y", (d, i) => i * 20)
+      .attr("y", (d, i) => i * 80)
       .attr("width", 15)
-      .attr("height", 15)
+      .attr("height", 30)
       .attr("fill", (d) => colorScale(d));
 
     legend
       .selectAll("text")
-      .data([priceKey, diffKey])
+      .data([diffKey, priceKey])
       .join("text")
       .attr("x", 20)
-      .attr("y", (d, i) => i * 20 + 10)
-      .text((d) =>
-        d === priceKey
-          ? `Price of ${legText}`
-          : `Price of ${legText} (Adjusted)`
-      )
-      .style("font-size", "1em")
-      .attr("alignment-baseline", "middle");
+      .attr("y", (d, i) => i * 80 + 10)
+      .each(function (d) {
+        const text = d3.select(this);
+        const lines =
+          d === priceKey
+            ? [`Price of`, `${legText}`]
+            : [`Price of`, `${legText}`, `(Adjusted)`];
+
+        lines.forEach((line, i) => {
+          text
+            .append("tspan")
+            .attr("x", 20)
+            .attr("dy", i === 0 ? 0 : "1.2em")
+            .text(line);
+        });
+      })
+      .style("font-size", "1em");
   }
 
   handleDropChange = (event) => {
@@ -310,15 +319,11 @@ class Comp6 extends Component {
     return (
       <div>
         <div className="stackchartgroup">
-          <div id="stackChart"></div>
-          <div id="tooltip"></div>
           <div className="chart-controls">
             <Box sx={{ maxWidth: 120 }}>
               <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Year</InputLabel>
+                <InputLabel>Year</InputLabel>
                 <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
                   value={selectedYear}
                   label="Age"
                   onChange={this.handleDropChange}
@@ -356,12 +361,9 @@ class Comp6 extends Component {
               </FormControl>
             </Box>
             <FormControl>
-              <FormLabel id="demo-controlled-radio-buttons-group">
-                Metal
-              </FormLabel>
+              <FormLabel>Metal</FormLabel>
               <RadioGroup
-                aria-labelledby="demo-controlled-radio-buttons-group"
-                name="controlled-radio-buttons-group"
+                row
                 value={selectedMetal}
                 onChange={this.handleRadioChange}
               >
@@ -393,6 +395,8 @@ class Comp6 extends Component {
               </RadioGroup>
             </FormControl>
           </div>
+          <div id="stackChart" />
+          <div id="tooltip" />
         </div>
       </div>
     );

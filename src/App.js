@@ -31,16 +31,13 @@ class App extends Component {
         <div className="topgroup">
           <FileUploadMod set_data={this.set_data}></FileUploadMod>
           <Comp7 csv_data={this.state.data}></Comp7>
-          <h1>This is the top group</h1>
         </div>
         <div className="dashboard">
           <div className="leftgroup">
             <Comp5 />
-            <h1>This is the left group</h1>
           </div>
           <div className="rightgroup">
             <Comp6 />
-            <h1>This is the right group</h1>
           </div>
         </div>
       </div>
