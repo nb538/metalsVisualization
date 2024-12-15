@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/metalsVisualization/static/css/main.e013744d.css",
-    "main.js": "/metalsVisualization/static/js/main.34e2b69e.js",
+    "main.js": "/metalsVisualization/static/js/main.ffc9079e.js",
     "static/media/metals.csv": "/metalsVisualization/static/media/metals.eb7fd01b43d0f3031623.csv",
     "index.html": "/metalsVisualization/index.html",
     "main.e013744d.css.map": "/metalsVisualization/static/css/main.e013744d.css.map",
-    "main.34e2b69e.js.map": "/metalsVisualization/static/js/main.34e2b69e.js.map"
+    "main.ffc9079e.js.map": "/metalsVisualization/static/js/main.ffc9079e.js.map"
   },
   "entrypoints": [
     "static/css/main.e013744d.css",
-    "static/js/main.34e2b69e.js"
+    "static/js/main.ffc9079e.js"
   ]
 }
