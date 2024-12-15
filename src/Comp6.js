@@ -159,7 +159,7 @@ class Comp6 extends Component {
     const colorScale = d3
       .scaleOrdinal()
       .domain([priceKey, diffKey])
-      .range(["#000080", "#FFD700"]);
+      .range(["#000080", "#FFA500"]);
 
     svg
       .append("g")

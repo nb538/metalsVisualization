@@ -139,9 +139,9 @@ class Comp7 extends Component {
         count,
       }));
 
-      const margin = { top: 26, right: 10, bottom: 60, left: 40 };
+      const margin = { top: 26, right: 10, bottom: 80, left: 40 };
       const width = 540 - margin.left - margin.right;
-      const height = 300 - margin.top - margin.bottom;
+      const height = 320 - margin.top - margin.bottom;
 
       const svg = tooltipDiv
         .append("svg")
@@ -199,11 +199,11 @@ class Comp7 extends Component {
 
       svg
         .selectAll(".x-title")
-        .data(["Range Maximum"])
+        .data(["Max Price per Bucket in USD"])
         .join("text")
         .attr("class", "x-title")
         .attr("x", width / 2)
-        .attr("y", height + margin.top + 32)
+        .attr("y", height + margin.top + 40)
         .attr("text-anchor", "middle")
         .text((d) => d)
         .attr("fill", "white")
@@ -284,17 +284,31 @@ class Comp7 extends Component {
         .attr("fill", "white")
         .attr("font-size", "16px");
 
-      svg
-        .selectAll(".x-title")
-        .data(["Range Maximum"])
-        .join("text")
-        .attr("class", "x-title")
-        .attr("x", width / 2)
-        .attr("y", height + margin.top + 32)
-        .attr("text-anchor", "middle")
-        .text((d) => d)
-        .attr("fill", "white")
-        .attr("font-size", "16px");
+      if (columnName === "Year") {
+        svg
+          .selectAll(".x-title")
+          .data(["Year"])
+          .join("text")
+          .attr("class", "x-title")
+          .attr("x", width / 2)
+          .attr("y", height + margin.top + 32)
+          .attr("text-anchor", "middle")
+          .text((d) => d)
+          .attr("fill", "white")
+          .attr("font-size", "16px");
+      } else {
+        svg
+          .selectAll(".x-title")
+          .data(["Month"])
+          .join("text")
+          .attr("class", "x-title")
+          .attr("x", width / 2)
+          .attr("y", height + margin.top + 32)
+          .attr("text-anchor", "middle")
+          .text((d) => d)
+          .attr("fill", "white")
+          .attr("font-size", "16px");
+      }
 
       svg
         .selectAll(".bar")
